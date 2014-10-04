@@ -39,11 +39,54 @@ barFunc =
 		i = i + beat;
 	}
 };
-barFunc.value(8);
+barFunc.value(4);
+)
+
+
+(
+var barFunc;
+barFunc =
+{
+	arg limit = 4;
+	var i = 0.0;
+	var beatCount = 0;
+	var final = "";
+	while { i < limit}
+	{
+		var beat = 0.0;
+		var beats = [0.25];
+		if ((limit - i) >= 1.0, { beats.add(1.0)}, {
+			if ((limit - i) >= 0.5, { beats = beats.add(0.5)
+			});
+		});
+/*		switch (limit - i >= 1.0,
+			true, {beats.add(1.0)}
+		);
+		switch (limit - i >= 0.5,
+			true, {beats.add(0.5)}
+		);*/
+
+		beat = choose(beats);
+		//	i.yield;
+		"total".postln;
+		i.postln;
+		"next beat".postln;
+		beat.postln;
+
+		i = i + beat;
+		beatCount = beatCount + 1;
+	};
+
+	"Final beat count".scatArgs(i).postln;
+	"Note count".scatArgs(beatCount);
+
+};
+barFunc.value(4);
 )
 
 barFunc;
 
+"These are some args: ".scatArgs(\fish, SinOsc.ar, {4 + 3}).postln;
 
 /*
 c) Rewrite the following code as a series of nested ifs
@@ -114,3 +157,33 @@ Write a program which plots ten outputs from any one of these lines in a row. Ad
 
 
 */
+
+(
+{
+	var source;
+	source= LFNoise0.ar(10);
+	[
+		source,	//step
+		source.lag(0.1)	//step with lag of period; so only gets to target value at end of step
+	]
+}.plot(1.0)
+)
+
+(
+var barFunc;
+barFunc =
+{
+	arg limit = 10;
+	var i = 0;
+	//var beatCount = 0;
+	//var final = "";
+	while { i < limit}
+	{
+		i = i + 1;
+	}
+}
+)
+
+(
+var f = {2.rand};
+)
