@@ -169,21 +169,33 @@ Write a program which plots ten outputs from any one of these lines in a row. Ad
 }.plot(1.0)
 )
 
+
+
 (
+var plotArray;
 var barFunc;
 barFunc =
 {
-	arg limit = 10;
-	var i = 0;
-	//var beatCount = 0;
-	//var final = "";
+	arg type = 0, limit = 10;
+	var outputs = Array.new(limit);
+	var i = 0, val = 0;
 	while { i < limit}
 	{
+		switch (type,
+			0, { val = 2.rand },
+			1, { val = 2.0.rand },
+			2, { val = 2.rand2 },
+			3, { val = 2.0.rand2 },
+			4, { val = rrand(2,4) },
+			5, { val = rrand(2.0,4.0) },
+			6, { val = exprand(1.0,10.0) }
+		);
+		outputs.add(val);
 		i = i + 1;
-	}
-}
-)
-
-(
-var f = {2.rand};
+		i.postln;
+	};
+	outputs;
+};
+plotArray = barFunc.value(0,10);
+plotArray;
 )
