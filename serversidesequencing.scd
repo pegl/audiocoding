@@ -243,6 +243,9 @@ Pan2.ar(sound*env,0.0)
 //SyncSaw is hard sync
 { SyncSaw.ar(MouseX.kr(1,400), MouseY.kr(400,800), 0.1) }.play;
 
+{ Saw.ar(MouseX.kr(1,400), MouseY.kr(400,800), 0.1) }.play;
+{ VarSaw.ar(MouseX.kr(1,400), MouseY.kr(400,800), 0.1) }.play;
+
 // custom hard sync oscillator using an EnvGen and a trigger source
 {EnvGen.ar(Env([0,0,1,-1,0],MouseY.kr(0,1)*[0,128,256,128]/SampleRate.ir),Impulse.ar(MouseX.kr(10,300,'exponential')))}.play
 
