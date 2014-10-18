@@ -196,6 +196,6 @@ barFunc =
 	};
 	outputs;
 };
-plotArray = barFunc.value(0,10);
+plotArray = barFunc.value(2,10);
 plotArray;
 )

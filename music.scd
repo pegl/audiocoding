@@ -41,6 +41,7 @@ syn = SynthDef.new("example3",
 	pitch = (freq * ratio) + detune;
 	sin = SinOsc.ar(pitch, mul: env_gen);
 	Out.ar(out, sin);
+	Out.ar(1, sin);
 });
 syn.load(s);
 )
@@ -61,13 +62,33 @@ syn = SynthDef.new("example3",
 	sin = SinOsc.ar(pitch, mul: env_gen);
 	//sin = MoogFF.ar(Saw.ar(y.ar(4,333,666)),a*XLine.ar(1,39,99,99,0,2));
 	Out.ar(out, sin);
+	Out.ar(1, sin);
 });
 syn.load(s);
 )
 
 Synth.new("example3");
 
-play{y=LFNoise0; a=y.ar(8); MoogFF.ar(Saw.ar(y.ar(4,333,666)),a*XLine.ar(1,39,99,99,0,2))};
+(
+var syn, sound;
+syn = SynthDef.new("beats",
+{
+	var sin;
+	x=SinOsc;
+	y=LFNoise0;
+	a=y.ar(8);
+	sin = x.ar(Pulse.ar(2)*24);
+	Out.ar(0, sin);
+	Out.ar(1, sin);
+});
+syn.load(s);
+)
+
+a = Synth.new("beats");
+a.free;
+a.stop;
+
+//play{y=LFNoise0; a=y.ar(8); MoogFF.ar(Saw.ar(y.ar(4,333,666)),a*XLine.ar(1,39,99,99,0,2))};
 
 LFNoise0.plot;
 
@@ -109,10 +130,13 @@ func = { arg ratio_arr, waitArr, durArr, baseFreq = 440, detune = 10, note_count
 	var pitch_multiplier;
 	var note_length;
 	var arr_size;
+	var a;
 	arr_size = ratio_arr.size;
 	note_length = choose([1,2,3,4]);
 
-	play{x=SinOsc;y=LFNoise0;a=y.ar(8);x.ar(Pulse.ar(2)*24)};
+	//a = {x=SinOsc;y=LFNoise0;a=y.ar(8);x.ar(Pulse.ar(2)*24)}.play;
+	a = Synth.new("beats");
+
 	Routine.new({
 		var timeNow = TempoClock.default.beats;
 		"Time is now: ".post; timeNow.postln;
@@ -130,6 +154,7 @@ func = { arg ratio_arr, waitArr, durArr, baseFreq = 440, detune = 10, note_count
 			note_length = durArr.at(note_count)
 		});
 		"Time is later: ".post; thisThread.clock.beats.postln;
+		a.free;
 	});
 };
 
@@ -137,7 +162,7 @@ arr = [ 1/1, 3/2, 4/3, 9/8, 16/9, 5/4, 8/5 ];
 waitArr = [ 1/1, 3/2, 4/3, 9/8, 16/9, 5/4, 8/5 ];
 durArr = [ 1/1, 3/2, 4/3, 9/8, 16/9, 5/4, 8/5 ];
 
-func.value(arr.scramble, waitArr.scramble, durArr.scramble, 440, 10, 10).play;
+func.value(arr.scramble, waitArr.scramble, durArr.scramble, 440, 10, 4).play;
 
 )
 
