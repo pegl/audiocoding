@@ -1,0 +1,11 @@
+
+Server.default=s=Server.local;
+
+s.boot;
+
+Platform.resourceDir +/+ "sounds/a11wlk01.wav" //3.5 or later
+
+
+//allocate a one channel buffer of 441000 sample frames (10 sec at standard sampling rate)
+
+b=Buffer.alloc(s, 10*44100, 1);  // s= server, 10*44100 num frames, 1 = 1 channel, i.e. mono

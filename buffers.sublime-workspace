@@ -1,0 +1,321 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "\n\n// a) Make a function with argument n which returns an array of n random numbers between 1.0 and 10.0. The numbers must have been sorted into decreasing order (hint: try [1,4,3].sort)\n\n(\n{arg randn = 10;\nz = Array.new(randn);\n	(1..randn).do({ arg item; z.add(rand(1.0, 10.0));});\nz.sort;\nz.postln;\n}.value(3)\n)\n\n\n// some notes on looping below\n\n\n(\nRoutine(\n	{ var i=10;\n		while { i > 0 }\n{\n			i.yield; i = i - 5.0.rand\n		}\n	}\n).do(\n	{ arg item; item.postln }\n);\n)\n\n\n[ 1, 2, \"abc\", (3@4) ].do({ arg item, i; [i, item].postln; });\n\n5.do({ arg item; item.postln }); // iterates from zero to four\n\n\"you\".do({ arg item; item.postln }); // a String is a collection of characters\n\n'they'.do({ arg item; item.postln }); // a Symbol is a singular item\n\n(8..20).do({ arg item; item.postln }); // iterates from eight to twenty\n\n(8,10..20).do({ arg item; item.postln }); // iterates from eight to twenty, with stepsize two\n\n(8,11..20).do({ arg item; item.postln }); // iterates from eight to twenty, with stepsize three\n\nRoutine({ var i=10; while { i > 0 } { i.yield; i = i - 5.0.rand } }).do({ arg item; item.postln });\n;\n\n/*\nb) Imagine you have to generate a rhythm for one 4/4 bar (i.e. 4 beats). Write a short program which selects random successive numbers from [1.0, 0.5, 0.25] to fill up one bar's worth of beats. How do you deal with going past the end of the bar? (hint: what does .choose do on an array?)\n*/\n\n(\nvar barFunc;\nbarFunc =\n{\n	arg limit = 4;\n	var i = 0.0;\n	while { i < limit}\n	{\n		var beat = choose([1.0, 0.5, 0.25]);\n		//	i.yield;\n		\"total\".postln;\n		i.postln;\n		\"next beat\".postln;\n		beat.postln;\n\n		i = i + beat;\n	}\n};\nbarFunc.value(4);\n)\n\n\n(\nvar barFunc;\nbarFunc =\n{\n	arg limit = 4;\n	var i = 0.0;\n	var beatCount = 0;\n	var final = \"\";\n	while { i < limit}\n	{\n		var beat = 0.0;\n		var beats = [0.25];\n		if ((limit - i) >= 1.0, { beats.add(1.0)}, {\n			if ((limit - i) >= 0.5, { beats = beats.add(0.5)\n			});\n		});\n/*		switch (limit - i >= 1.0,\n			true, {beats.add(1.0)}\n		);\n		switch (limit - i >= 0.5,\n			true, {beats.add(0.5)}\n		);*/\n\n		beat = choose(beats);\n		//	i.yield;\n		\"total\".postln;\n		i.postln;\n		\"next beat\".postln;\n		beat.postln;\n\n		i = i + beat;\n		beatCount = beatCount + 1;\n	};\n\n	\"Final beat count\".scatArgs(i).postln;\n	\"Note count\".scatArgs(beatCount);\n\n};\nbarFunc.value(4);\n)\n\nbarFunc;\n\n\"These are some args: \".scatArgs(\\fish, SinOsc.ar, {4 + 3}).postln;\n\n/*\nc) Rewrite the following code as a series of nested ifs\n\n\ni.e. if(condition1, {}, {if (condition2, etc.)})\n*/\n\n(\nvar z;\nz = 4.rand;\nswitch (z,\n	0, { \\outcome1 },\n	1, { \\outcome2 },\n	2, { \\outcome3 },\n	3, { \\outcome4 }\n).postln;\n)\n\n// rewritten\n(\nvar z;\nvar out;\nz = 4.rand;\nif (z == 0,{ out = \\outcome1},{\n	if (z == 1,{ out = \\outcome2},{\n		if (z == 2,{ out = \\outcome3},{\n			if (z == 3,{ out = \\outcome4\n			});\n		});\n	});\n});\n)\n\n\n// Now also rewrite it as a choice amongst elements of an array.\n\n\\outcome ++ choose([0,1,2,3]);\n\n\n/*\nd) Compare each of these lines by running them one at a time:\n\n\n2.rand\n\n\n2.0.rand\n\n\n2.rand2\n\n\n2.0.rand2\n\n\nrrand(2,4)\n\n\nrrand(2.0,4.0)\n\n\nexprand(1.0,10.0)\n\n\n\nWrite a program which plots ten outputs from any one of these lines in a row. Advanced: actually allow user selection (via a variable for instance) of which line gets used to generate the ten random numbers.\n\n\n*/\n\n(\n{\n	var source;\n	source= LFNoise0.ar(10);\n	[\n		source,	//step\n		source.lag(0.1)	//step with lag of period; so only gets to target value at end of step\n	]\n}.plot(1.0)\n)\n\n\n\n(\nvar plotArray;\nvar barFunc;\nbarFunc =\n{\n	arg type = 0, limit = 10;\n	var outputs = Array.new(limit);\n	var i = 0, val = 0;\n	while { i < limit}\n	{\n		switch (type,\n			0, { val = 2.rand },\n			1, { val = 2.0.rand },\n			2, { val = 2.rand2 },\n			3, { val = 2.0.rand2 },\n			4, { val = rrand(2,4) },\n			5, { val = rrand(2.0,4.0) },\n			6, { val = exprand(1.0,10.0) }\n		);\n		outputs.add(val);\n		i = i + 1;\n		i.postln;\n	};\n	outputs;\n};\nplotArray = barFunc.value(2,10);\nplotArray;\n)\n",
+			"file": "exercises.scd",
+			"file_size": 3933,
+			"file_write_time": 1413975341000000,
+			"settings":
+			{
+				"buffer_size": 3931,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "oneliners.scd",
+			"settings":
+			{
+				"buffer_size": 1682,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "\nServer.default=s=Server.local;\n\ns.boot;\n\nPlatform.resourceDir +/+ \"sounds/a11wlk01.wav\" //3.5 or later\n\n\n//allocate a one channel buffer of 441000 sample frames (10 sec at standard sampling rate)\n\nb=Buffer.alloc(s, 10*44100, 1);  // s= server, 10*44100 num frames, 1 = 1 channel, i.e. mono\nb.bufnum\nb.free\n\n\n// playbuf\n(\n    //this loads into a buffer the default sound that comes with SuperCollider\n    //.read brings in the whole sound at once\n    b = Buffer.read(s,Platform.resourceDir +/+ \"sounds/a11wlk01.wav\"); //store handle to Buffer in global variable b\n    SynthDef(\"playbuf\",{ arg out=0,bufnum=0, rate=1, trigger=1, startPos=0, loop=1;\n        Out.ar(out,\n            Pan2.ar(PlayBuf.ar(1,bufnum, BufRateScale.kr(bufnum)*rate, trigger, BufFrames.ir(bufnum)*startPos, loop),0.0)\n            )\n        }).add; \n    )\n\n\n//note how even though the soundfile doesn't loop, the Synth is not deallocated when done\n//(it has no envelope function). you'll need to cmd+period to kill it  \nSynth(\\playbuf, [\\out, 0, \\bufnum, b.bufnum]);\n\n //play at half rate\nSynth(\\playbuf, [\\out, 0, \\bufnum, b.bufnum, \\rate, 0.5]);\n\n\n\n//Example with GUI controlling Synth \n\n(\n    var w, rateslid, trigslid, startposslid, loopslid, a; \n    a=Synth(\\playbuf, [\\out, 0, \\bufnum, b.bufnum]);\n    w=Window(\"PlayBuf Example\",Rect(10,200,300,150));\n    w.front;\n    )",
+			"file": "buffers.scd",
+			"file_size": 1121,
+			"file_write_time": 1414062270000000,
+			"settings":
+			{
+				"buffer_size": 1347,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "{\n	\"font_size\": 12.0,\n    \"keys\": [\"ctrl+=\"], \"command\": \"reindent\"    \n}",
+			"file": "/Users/peter/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+			"file_size": 70,
+			"file_write_time": 1414062385000000,
+			"settings":
+			{
+				"buffer_size": 73,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/peter/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+			"settings":
+			{
+				"buffer_size": 13676,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/peter/Library/Application Support/Sublime Text 2/Packages/User/SuperCollider.sublime-settings"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "exercises.scd",
+					"settings":
+					{
+						"buffer_size": 3931,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								818,
+								818
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SuperCollider/SuperCollider.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 184.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "oneliners.scd",
+					"settings":
+					{
+						"buffer_size": 1682,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1209,
+								1209
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SuperCollider/SuperCollider.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "buffers.scd",
+					"settings":
+					{
+						"buffer_size": 1347,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1283,
+								1283
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/SuperCollider/SuperCollider.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 14.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/peter/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+					"settings":
+					{
+						"buffer_size": 73,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								42,
+								42
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/Users/peter/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+					"settings":
+					{
+						"buffer_size": 13676,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1810,
+								1810
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 500.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.supercollider":
+	{
+		"height": 100.0
+	},
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}
