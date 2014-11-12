@@ -174,6 +174,10 @@ a.tuning.name;
 a.tuning.semitones;
 a.tuning.ratios;
 
+
+
+
+
 // for ascending/descending scales, use Pavaroh
 (
 Pbind(\note, Pavaroh(
@@ -185,10 +189,14 @@ Pbind(\note, Pavaroh(
 ).play;
 )
 
+
+
+
 // note that the root pitch is not stored in the Scale (which should arguably be called a Mode for that reason)
 // instead you supply it at play time:
 
 // key of A
+// these should be bound by a ppar to enforce parallelism
 (
 Pbind(
     \degree, Pseq((0..7), inf), // your melody goes here
@@ -203,6 +211,9 @@ Pbind(
 ).play;
 )
 
+
+
+// printing out a pseq
 (
 var a,b;
 a = Pseq((0..7), inf);
@@ -212,38 +223,62 @@ b = a.asStream;
 
 
 
+// ScaleInfo.scales.keys
+
+// play a scale by index into the scale array
+(
+var c = ScaleInfo.scales.keys.asArray.sort;
+var scale = ScaleInfo.at(c[5]);
+scale.postln;
+Pbind(
+    \degree, Pseq((0..7), inf), // your melody goes here
+    \scale, scale, // your scale goes here
+    \root, 0, // semitones relative to 60.midicps, so this is A
+	\dur, 0.25
+).play;
+)
+
+
+
 // play any standard 7 note scale
 // @param reference_note (note)
 // @param octave_count (1+)
 // @param direction (up,down,both)
+// @param scale_index (into scales set)
 
 // extend human readable music note e.g A,B,C..G with # sharp b flat
 (
 var func, task;
 func = {
-	arg ref_note, octave_cnt, dir;
+	arg ref_note, octave_cnt, dir, scale_index;
 	var upper = 7 * octave_cnt;
 	var lower = -7 * octave_cnt;
+	var scales = ScaleInfo.scales.keys.asArray.sort;
+	var scale = ScaleInfo.at(scales[scale_index]);
 	Task({
-		a = Scale.major;
 		switch (dir,
 			"both", {
 		Ppar([
-			Pbind(\scale, a, \degree, Pseq((0..upper) ++ (upper-1..0) ++ [\rest], 1), \dur, 0.25, \root, ref_note), //.play
-			Pbind(\scale, a, \degree, Pseq((0..lower) ++ (lower+1..0) ++ [\rest], 1), \dur, 0.25, \root, ref_note)
+			Pbind(\scale, scale, \degree, Pseq((0..upper) ++ (upper-1..0) ++ [\rest], 1), \dur, 0.25, \root, ref_note), //.play
+			Pbind(\scale, scale, \degree, Pseq((0..lower) ++ (lower+1..0) ++ [\rest], 1), \dur, 0.25, \root, ref_note)
 		]).play},
 			"up", {
-			Pbind(\scale, a, \degree, Pseq((0..upper) ++ (upper-1..0) ++ [\rest], 1), \dur, 0.25, \root, ref_note).play
+			Pbind(\scale, scale, \degree, Pseq((0..upper) ++ (upper-1..0) ++ [\rest], 1), \dur, 0.25, \root, ref_note).play
 			},
 			"down", {
-			Pbind(\scale, a, \degree, Pseq((0..lower) ++ (lower+1..0) ++ [\rest], 1), \dur, 0.25, \root, ref_note).play
+			Pbind(\scale, scale, \degree, Pseq((0..lower) ++ (lower+1..0) ++ [\rest], 1), \dur, 0.25, \root, ref_note).play
 			}
 		)
 	});
 
 };
-task = func.value(1,2,"both");
+
+task = func.value(1,2,"both",5);
 task.play;
 )
+
+
+
+
 
 
