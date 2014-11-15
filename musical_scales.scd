@@ -126,6 +126,8 @@ Pbind(\scale, a, \degree, Pseq((0..14) ++ (13..0) ++ [\rest], 1), \dur, 0.25).pl
 Pbind(\scale, a, \degree, Pseq((0..-14) ++ (-13..0) ++ [\rest], 1), \dur, 0.25).play;
 )
 
+
+
 // can also set tuning at creation time
 b = Scale.ionian(\pythagorean);
 b.cents;
@@ -278,7 +280,50 @@ task.play;
 )
 
 
+// play any standard 7 note scale
+// @param reference_note (note)
+// @param octave_count (1+)
+// @param direction (up,down,both)
+// @param scale_index (into scales set)
+
+// extend human readable music note e.g A,B,C..G with # sharp b flat
+(
+var func, task;
+func = {
+	arg ref_note, octave_cnt, dir, scale_name;
+	var upper = 7 * octave_cnt;
+	var lower = -7 * octave_cnt;
+//	var scales = ScaleInfo.scales.keys.asArray.sort;
+	var scale_index = ScaleInfo.scales.keys.asArray.atIdentityHash(scale_name);
+	var scales = ScaleInfo.scales.keys.asArray.sort;
+	var scale = ScaleInfo.at(scales[scale_index]);
+	Task({
+		switch (dir,
+			"both", {
+		Ppar([
+			Pbind(\scale, scale, \degree, Pseq((0..upper) ++ (upper-1..0) ++ [\rest], 1), \dur, 0.25, \root, ref_note), //.play
+			Pbind(\scale, scale, \degree, Pseq((0..lower) ++ (lower+1..0) ++ [\rest], 1), \dur, 0.25, \root, ref_note)
+		]).play},
+			"up", {
+			Pbind(\scale, scale, \degree, Pseq((0..upper) ++ (upper-1..0) ++ [\rest], 1), \dur, 0.25, \root, ref_note).play
+			},
+			"down", {
+			Pbind(\scale, scale, \degree, Pseq((0..lower) ++ (lower+1..0) ++ [\rest], 1), \dur, 0.25, \root, ref_note).play
+			}
+		)
+	});
+
+};
+
+task = func.value(1,2,"up",'rast');
+task.play;
+)
 
 
 
 
+
+//[ nahawandDesc, atharKurd, superLocrian, hirajoshi, kumoi, nahawand, kurd, partch_o2, nikriz, rast, bastanikar, phrygian, neapolitanMajor, bartok, lydian, mahur, yakahDesc, bhairav, chromatic24, hijaz, jiharkah, locrianMajor, gong, partch_u1, hexPhrygian, sikahDesc, ahirbhairav, partch_o3, yu, minorPentatonic, enigmatic, yakah, rastDesc, neapolitanMinor, ajam, pelog, saba, locrian, whole, bayati, aeolian, augmented2, scriabin, hijazDesc, dorian, harmonicMajor, melodicMinorDesc, hexDorian, farahfaza, nair.
+ScaleInfo.scales.keys.asArray.atIdentityHash('superLocrian')
+ScaleInfo.scales.keys.asArray.at(2);
+a
