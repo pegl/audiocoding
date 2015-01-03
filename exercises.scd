@@ -8,7 +8,7 @@ z = Array.new(randn);
 	(1..randn).do({ arg item; z.add(rand(1.0, 10.0));});
 z.sort;
 z.postln;
-}.value(3)
+}.value(5)
 )
 
 
@@ -225,6 +225,51 @@ barFunc =
 	};
 	outputs;
 };
-plotArray = barFunc.value(2,10);
-plotArray;
+plotArray = barFunc.value(4,10);
+w = Window.new("plot", bounds: Window.screenBounds);
+plotArray.plot;
 )
+
+
+(
+w = Window.new("GUI Introduction", Window.screenBounds);
+TextField.new(w,Rect(0,0,200,30)).resize_(2);
+Slider.new(w,Rect(0,30,30,170)).resize_(4);
+TextView.new(w,Rect(30,30,170,170)).resize_(5);
+w.front;
+)
+
+
+{ PinkNoise.ar(0.2) + SinOsc.ar(440, 0, 0.2) + Saw.ar(660, 0.2) }.scope;
+{ [SinOsc.ar(440, 0, 0.2), SinOsc.ar(442, 0, 0.2)] }.scope(zoom: 10);
+
+{ PinkNoise.ar(0.2) + SinOsc.ar(440, 0, 0.2) + Saw.ar(660, 0.2) }.plot;
+	{ PinkNoise.ar(0.2) + SinOsc.ar(440, 0, 0.2) + Saw.ar(660, 0.2) }.plot(1);
+
+
+SynthDef(\mario, { |out, amp=0.3, freq=440|
+	var snd;
+	snd = LFPulse.ar(freq)!2;
+	snd = snd * EnvGen.ar(Env.linen(0.001, 0.1, 0.03), doneAction:2);
+	OffsetOut.ar(out, snd*amp);
+}).add;
+
+Synth.new(\mario).scope;
+m.play
+// SynthDef for the bass
+SynthDef(\bass, { |out, amp=0.5, freq=440|
+	var snd;
+	snd = LFTri.ar(freq)!2;
+	snd = snd * EnvGen.ar(Env.linen(0.001, 0.1, 0.03), doneAction:2);
+	OffsetOut.ar(out, snd*amp);
+}).add;
+
+
+// SynthDef for percussion sounds
+SynthDef(\beat, { |out, amp=0.3, sustain=0.01|
+	var snd;
+	snd = WhiteNoise.ar()!2;
+	snd = HPF.ar(snd, 2000);
+	snd = snd * EnvGen.ar(Env.linen(0.005, sustain, 0.01), doneAction:2);
+	OffsetOut.ar(out, snd*amp);
+}).add;
