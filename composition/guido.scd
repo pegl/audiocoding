@@ -48,11 +48,11 @@ guido = {
 		i = i + 1;
 
 	});
-
 	pitch_list.postln;
+
+	Pbind(\dur, 0.4, \midinote, Pseq(pitch_list ++ [\rest], 1)).play;
+
 };
-
-
 
 a = guido.value("The beginning of the good news of Jesus Christ, the Son of God.");
 a.postln;
