@@ -133,7 +133,7 @@ Then set the contents of index.html as follows:
 <!DOCTYPE html>
 <html>
 <body>
-  <script src="https://cdn.rawgit.com/mohayonao/web-audio-api-shim/master/build/web-audio-api-shim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/mohayonao/web-audio-api-shim/build/web-audio-api-shim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.min.js"></script>
   <script src="itsgonnarain.js"></script>
 </body>
@@ -468,7 +468,7 @@ Then set the contents of index.html as follows:
 <!DOCTYPE html>
 <html>
 <body>
-  <script src="https://cdn.rawgit.com/mohayonao/web-audio-api-shim/master/build/web-audio-api-shim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/mohayonao/web-audio-api-shim/build/web-audio-api-shim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.min.js"></script>
   <script src="musicforairports.js"></script>
 </body>
@@ -1008,7 +1008,7 @@ Then set the contents of index.html as follows:
 <!DOCTYPE html>
 <html>
 <body>
-  <script src="https://cdn.rawgit.com/mohayonao/web-audio-api-shim/master/build/web-audio-api-shim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/mohayonao/web-audio-api-shim/build/web-audio-api-shim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.min.js"></script>
   <script src="https://tonejs.github.io/CDN/r7/Tone.js"></script>
   <script src="discreetmusic.js"></script>
@@ -1825,7 +1825,7 @@ index.html
 </head>
 <body>
   <div class="eq"></div>
-  <script src="https://cdn.rawgit.com/mohayonao/web-audio-api-shim/master/build/web-audio-api-shim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/mohayonao/web-audio-api-shim/build/web-audio-api-shim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.min.js"></script>
   <script src="https://tonejs.github.io/CDN/r7/Tone.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.js">
